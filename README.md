@@ -7,7 +7,7 @@
 
 ---
 
-## 📖 What This Is
+## What This Is
 
 This project is the **entry point into real cloud and infrastructure engineering.**
 
@@ -21,7 +21,7 @@ This project forces you to learn the fundamentals that every advanced tool (Dock
 
 ---
 
-## 🎯 What You'll Learn
+## What You'll Learn
 
 By completing this project, you will understand:
 
@@ -38,7 +38,7 @@ By completing this project, you will understand:
 
 ---
 
-## 🏆 Outcome
+## Outcome
 
 A simple website running publicly on a local Linux server, managed entirely by you through the terminal.
 
@@ -52,7 +52,7 @@ A simple website running publicly on a local Linux server, managed entirely by y
 
 ---
 
-## 🚀 Project Setup
+## Project Setup
 
 ### **Goal**
 
@@ -66,7 +66,7 @@ Multipass is created by **Canonical** (Ubuntu developer) and provides instant, t
 
 ---
 
-## 📋 Prerequisites
+## Prerequisites
 
 - macOS with Homebrew installed
 - Terminal access
@@ -74,7 +74,7 @@ Multipass is created by **Canonical** (Ubuntu developer) and provides instant, t
 
 ---
 
-## 🛠️ Step-by-Step Guide
+## Step-by-Step Guide
 
 ### **Step 1: Install Multipass**
 
@@ -295,10 +295,10 @@ active (running)
 `systemctl` = Linux "service controller"
 
 It tells you if a service is:
-- **running** ✅
-- **stopped** ⏸️
-- **failed** ❌
-- **restarting** 🔄
+- **running** 
+- **stopped** 
+- **failed** 
+- **restarting** 
 
 **This is CRITICAL DevOps knowledge.**
 
@@ -384,13 +384,13 @@ You should now see:
 
 **"Hello I am Jill Ravaliya - This is my First Deployed Page!"**
 
-🎉 **Congratulations** — you just deployed your first website on a real server (not localhost).
+**Congratulations** — you just deployed your first website on a real server (not localhost).
 
 This is **EXACTLY** how hosting works.
 
 ---
 
-## 🔧 Breaking and Fixing NGINX
+## Breaking and Fixing NGINX
 
 You don't become DevOps by "installing stuff."
 
@@ -455,7 +455,7 @@ active (running)
 
 ![Screenshot 2025-11-22 at 3.13.16 AM.png](screenshots/Screenshot%202025-11-22%20at%203.13.16%20AM.png)
 
-Browser should work again. ✅
+Browser should work again.
 
 ---
 
@@ -567,7 +567,7 @@ sudo systemctl restart nginx
 
 ![Screenshot 2025-11-22 at 3.51.18 AM.png](screenshots/Screenshot%202025-11-22%20at%203.51.18%20AM.png)
 
-Browser → Refresh → Back online. ✅
+Browser → Refresh → Back online. 
 
 ---
 
@@ -656,7 +656,7 @@ NGINX runs as user `www-data` → part of "others" or "group" → needs **read**
 
 ---
 
-## 📊 Understanding Logs
+## Understanding Logs
 
 Logs are your eyes. They tell you **EXACTLY** what the server is doing.
 
@@ -756,7 +756,7 @@ Reading logs = understanding the system talking to you.
 
 ---
 
-## 🌐 Understanding Ports, Sockets, and Binding
+## Understanding Ports, Sockets, and Binding
 
 ---
 
@@ -869,7 +869,7 @@ Because NGINX is already using port 80.
 
 ---
 
-## ⚙️ Custom NGINX Virtual Host
+## Custom NGINX Virtual Host
 
 Right now your server uses the **DEFAULT** config:
 ```
@@ -990,21 +990,23 @@ Jill App Served From Custom NGINX Config
 
 ![Screenshot 2025-11-22 at 1.10.17 PM.png](screenshots/Screenshot%202025-11-22%20at%201.10.17%20PM.png)
 
-🎉 **You just created your first real NGINX virtual host**, same as a DevOps engineer would on production servers.
+**You just created your first real NGINX virtual host**, same as a DevOps engineer would on production servers.
 
 ---
 
-## 🔄 Reverse Proxy (API Routing)
+# Step 15 — Reverse Proxy (API Routing to Backend)
+
+## What You'll Learn
 
 This is **REAL DevOps work:**
 
 - Frontend on port **80**
-- Backend on port **5000**
+- Backend on port **5000** (Node, Python, etc.)
 - NGINX forwards `/api` → backend
 - Browser still hits port 80
 - Server handles routing internally
 
-This is **EXACT** behavior you use in:
+This is **EXACT** behavior you will use in:
 - Docker
 - Kubernetes
 - Load balancers
@@ -1013,39 +1015,47 @@ This is **EXACT** behavior you use in:
 
 ---
 
-### **Step 15.1: Create a Fake Backend**
+## Step 15.1 — Create a Fake Backend (Port 5000)
 
-Inside your VM:
+Inside your VM, run this:
+
 ```bash
 sudo apt install -y python3
+```
+
+Now start a temporary backend server on port 5000:
+
+```bash
 python3 -m http.server 5000
 ```
 
 ![Screenshot 2025-11-22 at 1.20.59 PM.png](screenshots/Screenshot%202025-11-22%20at%201.20.59%20PM.png)
 
-This:
+**What this does:**
 - Runs a backend HTTP server
 - Listens on port 5000
 - Responds with directory listing
 - Used ONLY for testing reverse proxy
 
-Open a **second terminal tab** and run:
+**Important:** Open a **second terminal tab** and run:
+
 ```bash
 multipass shell devops-server
 ```
 
-We'll edit NGINX in the second tab while the backend server runs in the first.
+We'll edit NGINX in the second tab while the backend server runs in the first tab.
 
 ---
 
-### **Step 15.2: Update NGINX Config for Reverse Proxy**
+## Step 15.2 — Update NGINX Config for Reverse Proxy
 
 Open your custom config:
+
 ```bash
 sudo nano /etc/nginx/sites-available/jillapp
 ```
 
-Update to:
+Type this content:
 
 ```nginx
 server {
@@ -1075,13 +1085,17 @@ server {
 
 This is **EXACTLY** how microservices communicate.
 
-Save + Exit
+**Save + Exit:**
+- `Ctrl + O`
+- `Enter`
+- `Ctrl + X`
 
 ---
 
-### **Step 15.3: Test NGINX Config**
+## Step 15.3 — Test NGINX Config
 
 Run:
+
 ```bash
 sudo nginx -t
 ```
@@ -1094,16 +1108,17 @@ test is successful
 
 ![Screenshot 2025-11-22 at 1.27.13 PM.png](screenshots/Screenshot%202025-11-22%20at%201.27.13%20PM.png)
 
-Restart NGINX:
+### **Restart NGINX**
+
 ```bash
 sudo systemctl restart nginx
 ```
 
 ---
 
-### **Step 15.4: Test Reverse Proxy**
+## Step 15.4 — Test Reverse Proxy in Browser
 
-**Test frontend:**
+### **Test Frontend**
 
 Open:
 ```
@@ -1114,36 +1129,311 @@ http://192.168.2.2
 
 You should see your HTML.
 
-**Test backend through reverse proxy:**
+### **Test Backend Through Reverse Proxy**
 
 Open:
 ```
 http://192.168.2.2/api/
 ```
 
-You should see Python server output (directory listing).
+You should see Python server output:
+- Directory listing
+- Or HTML generated by Python
+
+![Screenshot 2025-11-22 at 1.32.14 PM.png](screenshots/Screenshot%202025-11-22%20at%201.32.14%20PM.png)
+
+If you see ANY data → **Reverse proxy is working.** 
 
 ---
 
-### **Common Issue: Port Already in Use**
+## Problem: "You Are Not Connected"
 
-If you see:
+### **But wait, we did not see anything!**
+
+This message **only appears when the server stops responding entirely**, meaning:
+
+Either:
+- NGINX is not running
+- Your new NGINX config is broken
+- Config test failed but you restarted anyway
+- Python backend stole the terminal and NGINX couldn't restart
+
+---
+
+## Debugging Steps
+
+### **CONFIRM IF NGINX IS RUNNING**
+
+```bash
+systemctl status nginx
 ```
-OSError: [Errno 98] Address already in use
+
+![Screenshot 2025-11-22 at 1.39.56 PM.png](screenshots/Screenshot%202025-11-22%20at%201.39.56%20PM.png)
+
+---
+
+### **Check NGINX Config Syntax (Very Important)**
+
+```bash
+sudo nginx -t
+```
+
+![Screenshot 2025-11-22 at 1.40.19 PM.png](screenshots/Screenshot%202025-11-22%20at%201.40.19%20PM.png)
+
+---
+
+### **Confirm Your Config Exists**
+
+Run:
+```bash
+ls -l /etc/nginx/sites-available/
+ls -l /etc/nginx/sites-enabled/
+```
+
+![Screenshot 2025-11-22 at 1.41.28 PM.png](screenshots/Screenshot%202025-11-22%20at%201.41.28%20PM.png)
+
+You should see:
+```
+jillapp -> /etc/nginx/sites-available/jillapp
+```
+
+---
+
+### **Confirm Root Folder Exists**
+
+Run:
+```bash
+ls -l /var/www/jillapp/public
+```
+
+![Screenshot 2025-11-22 at 1.40.50 PM.png](screenshots/Screenshot%202025-11-22%20at%201.40.50%20PM.png)
+
+You should see your HTML file.
+
+---
+
+### **Confirm Your Python Backend is Running**
+
+In the first VM terminal where you started:
+```bash
+python3 -m http.server 5000
 ```
 
 ![Screenshot 2025-11-22 at 1.42.14 PM.png](screenshots/Screenshot%202025-11-22%20at%201.42.14%20PM.png)
 
-**What happened:**
-- Port 5000 is already in use
-- Python backend cannot start
-- Reverse proxy fails
+And yes — **we spotted the root cause correctly.**
 
-**Fix:**
+This error tells us EVERYTHING:
+```
+OSError: [Errno 98] Address already in use
+```
 
-Check what's using port 5000:
+---
+
+## Root Cause Analysis
+
+### **What Happened:**
+
+- **Port 5000 is already in use**
+- Something else is already running on port 5000
+- So Python backend cannot start
+- Since backend is not running → reverse proxy fails
+- Since reverse proxy fails → NGINX has nothing to forward to
+- Browser shows "Not connected"
+
+---
+
+## The Fix
+
+### **Check WHAT is Using Port 5000**
+
+Run:
 ```bash
 sudo ss -tulnp | grep 5000
 ```
 
-![Screenshot 2025-11-22 at 
+It will show something like:
+```
+LISTEN 0 128 0.0.0.0:5000 ... pid=1234
+```
+
+![Screenshot 2025-11-22 at 1.46.58 PM.png](screenshots/Screenshot%202025-11-22%20at%201.46.58%20PM.png)
+
+The `pid=` number tells us which process is blocking port 5000.
+
+---
+
+### **Kill the Process Using Port 5000**
+
+If the PID is `2450`:
+
+```bash
+sudo kill -9 2450
+```
+
+Now port 5000 is free.
+
+---
+
+### **Start Backend Again**
+
+Inside VM:
+```bash
+python3 -m http.server 5000
+```
+
+Now it should work properly without error.
+
+It should print:
+```
+Serving HTTP on 0.0.0.0 port 5000
+```
+
+![Screenshot 2025-11-22 at 1.48.45 PM.png](screenshots/Screenshot%202025-11-22%20at%201.48.45%20PM.png)
+
+---
+
+## TEST REVERSE PROXY AGAIN
+
+### **Test Backend Through Reverse Proxy:**
+
+Open:
+```
+http://192.168.2.2/api/
+```
+
+![Screenshot 2025-11-22 at 1.49.48 PM.png](screenshots/Screenshot%202025-11-22%20at%201.49.48%20PM.png)
+
+You should see Python server output:
+- Directory listing
+- Or HTML generated by Python
+
+**Reverse proxy is now working!**
+
+---
+
+## Reverse Proxy Failure — Root Cause Explanation (Exact)
+
+### **The Complete Story**
+
+A Python HTTP server was **already running on port 5000** in **Terminal 1**, but it was running in a **broken / invalid state**, serving files from the wrong directory (`/home/ubuntu`).
+
+Because this Python process was misconfigured and not behaving like a real backend, NGINX could not successfully forward `/api/` traffic to it.
+
+When you tried to start a **second Python server** in **Terminal 2**, it **failed to start**, because the port was already occupied by the first Python process.
+
+This caused:
+- The **new backend never started**
+- The **old backend was alive but not responding correctly**
+- NGINX had **no healthy backend** to connect to
+- `/api/` returned a **connection failure**
+
+---
+
+### **1. Python Was Already Occupying Port 5000**
+
+Checked by:
+```bash
+sudo ss -tulnp | grep 5000
+```
+
+Output showed something like:
+```
+LISTEN ... 0.0.0.0:5000 users:(("python3",pid=2450))
+```
+
+**Meaning:**
+- Python (PID 2450) had already **bound** to port 5000
+- That port was already in use
+
+---
+
+### **2. Old Python Server Was Running From Wrong Directory**
+
+The terminal logs showed:
+```
+GET /.ssh HTTP/1.0" 200 -
+GET /.bash_history HTTP/1.0" 200 -
+```
+
+**This confirms:**
+- Python server was started inside `/home/ubuntu`
+- It was exposing system files
+- It was not responding as a proper backend
+- It was effectively **unhealthy**
+
+Because of this, NGINX could not get a correct response.
+
+---
+
+### **3. New Python Server Failed to Start in Terminal 2**
+
+When you ran:
+```bash
+python3 -m http.server 5000
+```
+
+You got:
+```
+OSError: [Errno 98] Address already in use
+```
+
+**Meaning:**
+- Terminal 2 Python **never started**
+- Port 5000 was still owned by the old, broken process
+
+You were expecting a fresh backend, but you actually had **none**.
+
+---
+
+### **4. NGINX Had No Valid Upstream Backend**
+
+With a broken Python server in Terminal 1 and a failed Python start in Terminal 2:
+
+NGINX's reverse proxy:
+```nginx
+proxy_pass http://127.0.0.1:5000/;
+```
+
+Failed because:
+- The existing Python process was not responding correctly
+- The new Python process never started
+
+This left `/api/` with **no server** to forward traffic to.
+
+**Result:** Browser showed **"You are not connected"**
+
+---
+
+## Fix Applied
+
+### **Step 1: Identified the Python Process Blocking Port 5000**
+
+```bash
+sudo ss -tulnp | grep 5000
+```
+
+### **Step 2: Killed the Broken Process**
+
+```bash
+sudo kill -9 <pid>
+```
+
+### **Step 3: Started a Fresh, Healthy Backend**
+
+```bash
+python3 -m http.server 5000
+```
+
+### **Step 4: Reverse Proxy (/api/) Began Working Properly**
+
+**Problem solved!**
+
+---
+
+## Technical Summary
+
+**Reverse proxy failed because:**
+
+A broken Python process was already using port 5000, blocking the new one from starting. NGINX had no healthy backend to connect to until the old process was killed and a fresh backend was started.
+
